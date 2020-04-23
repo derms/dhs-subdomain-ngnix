@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  gateway:
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    hostname: gateway.generali.dhf.example
+    container_name: gateway.generali.dhf.example
+    networks:
+      - external_net
+      - internal_net
+    volumes:
+      - ./nginx-proxy-location-defaults.conf:/etc/nginx/nginx-proxy-location-defaults.conf
+      - ./nginx-proxy-location-files-defaults.conf:/etc/nginx/nginx-proxy-location-files-defaults.conf
+      - ./nginx-proxy.conf:/etc/nginx/nginx.conf
+      - ./nginx-proxy-ssl.conf:/etc/nginx/nginx-proxy-ssl.conf
+      - ./nginx-proxy-upstream-docker.conf:/etc/nginx/nginx-proxy-upstream.conf
+      - ./localhost.crt:/etc/ssl/certs/localhost.crt
+      - ./localhost.key:/etc/ssl/private/localhost.key
+networks:
+  external_net: {}
+  internal_net:
+    internal: true
